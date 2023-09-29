@@ -31,7 +31,7 @@ const initializeDatabaseAndServer = async () => {
 
 initializeDatabaseAndServer();
 const validPassword = (password) => {
-  password.length > 4;
+  return password.length > 4;
 };
 
 app.post("/register", async (request, response) => {
@@ -88,7 +88,10 @@ app.put("/change-password", async (request, response) => {
     response.status(400);
     response.send("Invalid user");
   } else {
-    const isPasswordMatched = await bcrypt.compare(oldPassword, db.password);
+    const isPasswordMatched = await bcrypt.compare(
+      oldPassword,
+      databaseUser.password
+    );
     if (isPasswordMatched === true) {
       if (validPassword(newPassword)) {
         const hashPassword = await bcrypt.hash(newPassword, 10);
@@ -104,7 +107,7 @@ app.put("/change-password", async (request, response) => {
         response.send("Password is too short");
       }
     } else {
-      response.send("Invalid current password");
+      response.send("Incorrect current password");
     }
   }
 });

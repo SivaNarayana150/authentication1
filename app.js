@@ -82,7 +82,7 @@ app.post("/login", async (request, response) => {
 
 app.put("/change-password", async (request, response) => {
   const { username, oldPassword, newPassword } = request.body;
-  const selectUserQuery = `SELECT * FROM user WHERE username='${username};`;
+  const selectUserQuery = `SELECT * FROM user WHERE username='${username}';`;
   const databaseUser = await db.get(selectUserQuery);
   if (databaseUser === undefined) {
     response.status(400);
